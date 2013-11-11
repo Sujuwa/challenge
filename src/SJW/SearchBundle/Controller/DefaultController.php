@@ -6,6 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 
 class DefaultController extends Controller
 {
@@ -20,11 +21,14 @@ class DefaultController extends Controller
     }
 
     /**
-     * @Route("/api/numbers")
+     * @Route("/api/search")
      *
      * @Template()
      */
-    public function numbersAction() {
+    public function searchAction(Request $request) {
+        // Get the search string from the UI.
+        $searchString = $request->query->get('q');
+
         // Read resource file.
         $kernel = $this->get('kernel');
 
@@ -38,6 +42,8 @@ class DefaultController extends Controller
         foreach($lines as $line) {
             $numbers[] = explode(';', $line);
         }
+
+        // TODO:
 
         // Output content.
         return new JsonResponse($numbers);
