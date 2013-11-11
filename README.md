@@ -1,20 +1,17 @@
 Population Search
 =================
-
-A simple tool to search Finnish towns and their population. Project is unfinished on purpose and the intentions is for developers to fork the project and complete it.
+A simple tool to search Finnish towns and their population. Project is unfinished on purpose and the intention is for developers to fork the project and complete it.
 
 
 Tools in use
 ------------
-
 * Symfony 2
 * Composer package management
 * Git version control
 
 Goals
 -----
-
-Fork this repository and implement the features below. The project basics and some initial routes are already implemented. The task is to search data from a .txt file and show it. The file has the following format:
+Fork this repository and implement the required features. The project basics and some initial routes are already implemented. The task is to search data from a .txt file and show it. The file has the following format:
 
     zip code;town;population
 
@@ -26,7 +23,7 @@ The first column is the zip code, then the name of the town and the population. 
 
 ### Requirements
 
-The app should allow searching of a town based on name or the zip code. The given town and it's population should shown in the table, as well as the nearest N number of towns in population.
+The app should allow searching of a town based on name or the zip code. The given town and it's population should be shown in the table, as well as the nearest N number of towns in population.
 
 ### Additional features
 
@@ -36,7 +33,6 @@ Bonus points are given for the following extra features:
 * Implement separate settings page to set how many towns are shown in the table
 * Visualize the table data somehow
 * Add autocomplete to the search form
-* 
 
 ### Getting started
 * Fork this repository using the [Fork](https://github.com/Sujuwa/challenge/fork) button on the top of the page.
