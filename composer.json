@@ -1,8 +1,4 @@
 {
-    "name": "sjw-challenge",
-    "license": "MIT",
-    "type": "project",
-    "description": "Challenge",
     "autoload": {
         "psr-0": { "": "src/" }
     },
