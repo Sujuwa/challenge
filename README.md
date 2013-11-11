@@ -7,9 +7,9 @@ A simple tool to search Finnish towns and their population. Project is unfinishe
 Tools in use
 ------------
 
-Symfony 2
-Composer package management
-Git version control
+* Symfony 2
+* Composer package management
+* Git version control
 
 Goals
 -----
