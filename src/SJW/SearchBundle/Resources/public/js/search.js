@@ -15,4 +15,4 @@
             });
         });
     });
-}(window.jQuery));
+})(window.jQuery);
