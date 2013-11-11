@@ -42,7 +42,7 @@ Bonus points are given for the following extra features:
 * Fork this repository using the [Fork](https://github.com/Sujuwa/challenge/fork) button on the top of the page.
 * Clone your own fork to your local computer `git clone git@github.com:YOUR_ACCOUNT/challenge.git`
 * Install/setup [Composer package management](http://getcomposer.org) (i.e. download the Composer.phar file to the project root folder).
-* Refer to the [Symfony 2 official homepage](httphttp://symfony.com/doc/current/book/installation.html) for Symfony 2 project setup.
+* Refer to the [Symfony 2 official homepage](http://symfony.com/doc/current/book/installation.html) for Symfony 2 project setup.
 * Run `php composer.phar install` to install dependencies.
 * Run `php app/console assets:install --symlink web` and `php app/console assetic:dump` to dump assets files.
 
