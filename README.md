@@ -46,7 +46,7 @@ Bonus points are given for the following extra features:
 * Run `php composer.phar install` to install dependencies.
 * Run `php app/console assets:install --symlink web` and `php app/console assetic:dump` to dump assets files.
 
-That's it, try to access the game at `http://localhost/challenge/web/app_dev.php` (or `app.php` for production mode).
+That's it, try to access the application at `http://localhost/challenge/web/app_dev.php` (or `app.php` for production mode).
 
 Please feel free to add the libraries that you need!
 
