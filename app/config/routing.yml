@@ -1,0 +1,5 @@
+sjw_search_bundle_sjw_search:
+    resource: "@SJWSearchBundle/Controller/"
+    type:     annotation
+    prefix:   /
+

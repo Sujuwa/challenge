@@ -1,0 +1,37 @@
+{% extends '::base.html.twig' %}
+
+{% block stylesheets %}
+    {% stylesheets filter="cssrewrite"
+    'bundles/sjwsearch/css/*'
+
+    output='css/dist/search.css'
+    %}
+    <link href="{{ asset_url }}" rel="stylesheet" media="screen" />
+    {% endstylesheets %}
+{% endblock %}
+
+{% block javascripts %}
+    {% javascripts
+    '@SJWSearchBundle/Resources/public/js/lib/*'
+
+    '@SJWSearchBundle/Resources/public/js/search.js'
+
+    output='js/dist/search.js'
+    %}
+    <script src="{{ asset_url }}" type="text/javascript"></script>
+    {% endjavascripts %}
+{% endblock %}
+
+{% block title %}
+    Code Challenge
+{% endblock %}
+
+{% block body %}
+    <div class="title-container">
+        <h1>Challenge</h1>
+    </div>
+
+    <div class="main-container">
+        Hello!
+    </div>
+{% endblock %}

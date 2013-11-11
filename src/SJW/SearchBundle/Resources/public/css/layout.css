@@ -1,0 +1,17 @@
+body {
+    font-family: Cambria, Georgia, serif;
+}
+
+.title-container {
+    margin: 40px auto;
+    width: 60%;
+    text-align: center;
+}
+
+.main-container {
+    margin: 40px auto;
+    width: 60%;
+    background-color: #f0f0f0;
+    border: 1px solid #ddd;
+    padding: 20px;
+}
