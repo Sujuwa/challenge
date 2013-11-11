@@ -29,7 +29,7 @@ The app should allow searching of a town based on name or the zip code. The give
 
 Bonus points are given for the following extra features:
 
-* Unit tests
+* Implement functional / unit tests
 * Implement separate settings page to set how many towns are shown in the table
 * Visualize the table data somehow
 * Add autocomplete to the search form
