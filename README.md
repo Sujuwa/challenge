@@ -32,10 +32,11 @@ The app should allow searching of a town based on name or the zip code. The give
 
 Bonus points are given for the following extra features:
 
-* Add autocomplete to the search form
+* Unit tests
+* Implement separate settings page to set how many towns are shown in the table
 * Visualize the table data somehow
-* ...
-* Profit
+* Add autocomplete to the search form
+* 
 
 ### Getting started
 * Fork this repository using the [Fork](https://github.com/Sujuwa/challenge/fork_select) button on the top of the page.
@@ -46,6 +47,8 @@ Bonus points are given for the following extra features:
 * Run `php app/console assets:install --symlink web` and `php app/console assetic:dump` to dump assets files.
 
 That's it, try to access the game at `http://localhost/challenge/web/app_dev.php` (or `app.php` for production mode).
+
+Please feel free to add the libraries that you need!
 
 ##### Dump assets
 If you make changes to asset files (.css, .js), make sure to run `php app/console assetic:dump`. Alternatively, you can keep a watcher running with `php app/console assetic:dump --watch`.
