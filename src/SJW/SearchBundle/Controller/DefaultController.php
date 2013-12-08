@@ -53,10 +53,6 @@ class DefaultController extends Controller
             }
         }
 
-        if (length($response)>20){
-           //use infinite scroll
-        }
-
 
         // TODO: Implement search based on query string.
 
