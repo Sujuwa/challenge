@@ -11,6 +11,18 @@
                 success: function(data) {
                     // TODO: implement showing of data.
                     console.log(data);
+                    var cities = "";
+                    $("p.no-results").remove();
+                    if(data.length==0){
+                        $(".main-container").append("<p class='no-results'>No results.</p>");
+                    }else{
+                        $.each(data, function( index, value ) {
+                            cities += "<tr><td>"+value.zip+"</td><td>"+value.city+"</td><td>"+value.population+"</td></tr>";
+                        });
+                    }
+
+                    $(".table tbody").html(cities);
+
                 }
             });
         });

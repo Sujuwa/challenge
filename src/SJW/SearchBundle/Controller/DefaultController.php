@@ -27,7 +27,7 @@ class DefaultController extends Controller
      */
     public function searchAction(Request $request) {
         // Get the search string from the UI.
-        $searchString = $request->query->get('q');
+        $searchString = trim($request->query->get('q'));
 
         // Read resource file.
         $kernel = $this->get('kernel');
@@ -38,14 +38,29 @@ class DefaultController extends Controller
         $lines = explode("\n", file_get_contents($filePath, true));
 
         $numbers = array();
+        $response = array();
 
-        foreach($lines as $line) {
-            $numbers[] = explode(';', $line);
+        foreach($lines as $k=>$line) {
+            $numbers = explode(';', $line);
+
+            if ($numbers[0]==$searchString
+                || $numbers[1]==$searchString
+                || strpos($numbers[1], $searchString)===(int)0
+                || strpos($numbers[1], $searchString)!=false){
+                $response[$k]['zip'] = (isset($numbers[0]) ? $numbers[0] : false);
+                $response[$k]['city'] = (isset($numbers[1]) ? $numbers[1] : false);
+                $response[$k]['population'] = (isset($numbers[2]) ? $numbers[2] : false);
+            }
         }
+
+        if (length($response)>20){
+           //use infinite scroll
+        }
+
 
         // TODO: Implement search based on query string.
 
         // Output content.
-        return new JsonResponse($numbers);
+        return new JsonResponse($response);
     }
 }
