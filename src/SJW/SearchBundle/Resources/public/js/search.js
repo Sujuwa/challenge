@@ -26,5 +26,11 @@
                 }
             });
         });
+
+        if((".flash-message").length>0){
+            setTimeout(function() {
+                $(".flash-message").fadeOut();
+            }, 2500);
+        }
     });
 })(window.jQuery);

@@ -7,11 +7,12 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Session\Session;
 
 class DefaultController extends Controller
 {
     /**
-     * @Route("/")
+     * @Route("/", name="home")
      *
      * @Template()
      */
@@ -28,6 +29,9 @@ class DefaultController extends Controller
     public function searchAction(Request $request) {
         // Get the search string from the UI.
         $searchString = trim($request->query->get('q'));
+
+        $session = $this->getRequest()->getSession();
+        $limit = $session->get('maximumRows');
 
         // Read resource file.
         $kernel = $this->get('kernel');
@@ -50,6 +54,9 @@ class DefaultController extends Controller
                 $response[$k]['zip'] = (isset($numbers[0]) ? $numbers[0] : false);
                 $response[$k]['city'] = (isset($numbers[1]) ? $numbers[1] : false);
                 $response[$k]['population'] = (isset($numbers[2]) ? $numbers[2] : false);
+
+                //use limit here to break out of the loop
+                if(count($response)>=$limit) break;
             }
         }
 
@@ -58,5 +65,22 @@ class DefaultController extends Controller
 
         // Output content.
         return new JsonResponse($response);
+    }
+
+    /**
+     * @Route("/settings/", name="settings")
+     *
+     * @Template()
+     */
+    public function settingsAction(Request $request) {
+        $session = $this->getRequest()->getSession();
+
+        if($request->query->get('maximumRows')){
+            $session->getFlashBag()->add('success', 'Maximum rows limit changed successfully!');
+            $session->set('maximumRows', $request->query->get('maximumRows'));
+            return $this->redirect($this->generateUrl('home'), 301);
+        }
+
+
     }
 }
