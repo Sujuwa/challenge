@@ -36,5 +36,35 @@
                 $(".flash-message").fadeOut();
             }, 2500);
         }
+
+        //autocomplete ajax
+        $("#search-input").keyup(function(){
+            var search = $(this).val();
+            var that = $(this);
+            if(search.length>2){
+                $.ajax({
+                    url: 'api/autocomplete?q=' + search,
+                    type: 'GET',
+                    success: function(data) {
+                        console.log(data);
+                        $("#suggestList").remove();
+                        if(data.length!=0){
+                            var suggestList = $('<ul />', {id: 'suggestList'});
+                            $.each(data, function( index, value ) {
+                                suggestList.append('<li data-city="'+value.name+'">'+value.name+', '+value.zip+'</li>');
+                            });
+                            that.after(suggestList);
+                        }
+                    }
+                });
+            }
+        });
+
+        $(document).on('click', '#suggestList li', function(){
+           $("#suggestList").remove();
+           $("#search-input").val($(this).data('city'));
+           $(".js-do-search").click();
+        });
+
     });
 })(window.jQuery);

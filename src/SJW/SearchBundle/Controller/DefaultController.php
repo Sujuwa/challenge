@@ -21,6 +21,27 @@ class DefaultController extends Controller
         return array();
     }
 
+    private function connectToDatabaseAndReturnArray(){
+        $kernel = $this->get('kernel');
+
+        $filePath = $kernel->locateResource('@SJWSearchBundle/Resources/data/numbers.txt');
+
+        // Split lines and comma delimited values.
+        $lines = explode("\n", file_get_contents($filePath, true));
+        $allTowns = array();
+
+        foreach($lines as $k=>$line) {
+            $numbers = explode(';', $line);
+
+            //first put everything in one big associative array
+            $allTowns[$k]['zip'] = (isset($numbers[0]) ? $numbers[0] : false);
+            $allTowns[$k]['name'] = (isset($numbers[1]) ? $numbers[1] : false);
+            $allTowns[$k]['population'] = (isset($numbers[2]) ? $numbers[2] : false);
+        }
+
+        return $allTowns;
+    }
+
     /**
      * @Route("/api/search")
      *
@@ -33,26 +54,8 @@ class DefaultController extends Controller
         $session = $this->getRequest()->getSession();
         $limit = ($session->get('maximumRows') =='') ? 20 : $session->get('maximumRows');
 
-        // Read resource file.
-        $kernel = $this->get('kernel');
-
-        $filePath = $kernel->locateResource('@SJWSearchBundle/Resources/data/numbers.txt');
-
-        // Split lines and comma delimited values.
-        $lines = explode("\n", file_get_contents($filePath, true));
-
-        $numbers = array();
         $response = array();
-        $allTowns = array();
-
-        foreach($lines as $k=>$line) {
-            $numbers = explode(';', $line);
-
-            //first put everything in one big associative array
-            $allTowns[$k]['zip'] = (isset($numbers[0]) ? $numbers[0] : false);
-            $allTowns[$k]['name'] = (isset($numbers[1]) ? $numbers[1] : false);
-            $allTowns[$k]['population'] = (isset($numbers[2]) ? $numbers[2] : false);
-        }
+        $allTowns = $this->connectToDatabaseAndReturnArray();
 
         //sort array by population
         $this->aasort($allTowns,"population");
@@ -62,8 +65,8 @@ class DefaultController extends Controller
             //be smart here and check %string%
             if ($town['zip']==$searchString
                 || $town['name']==$searchString
-                || strpos($town['name'], $searchString)===(int)0
-                || strpos($town['name'], $searchString)!=false){
+                || strpos(strtolower($town['name']), strtolower($searchString))===(int)0
+                || strpos(strtolower($town['name']), strtolower($searchString))!=false){
 
                 //this one is correct result
                 $town['correct'] = 'true';
@@ -71,7 +74,6 @@ class DefaultController extends Controller
 
                 //unset it from all towns
                 unset($allTowns[$k]);
-
                 //use user set limit here to break out of the loop even with correct results
                 if(count($response)>=$limit) break;
             }
@@ -107,8 +109,34 @@ class DefaultController extends Controller
             $session->set('maximumRows', $request->query->get('maximumRows'));
             return $this->redirect($this->generateUrl('home'), 301);
         }
+    }
 
+    /**
+     * @Route("/api/autocomplete")
+     *
+     * @Template()
+     */
+    public function autocompleteAction(Request $request) {
+        $searchString = trim($request->query->get('q'));
+        $response = array();
+        $allTowns = $this->connectToDatabaseAndReturnArray();
 
+        foreach($allTowns as $k=>$town){
+            //be smart here and check %string%
+            if ($town['zip']==$searchString
+                || $town['name']==$searchString
+                || strpos(strtolower($town['name']), strtolower($searchString))===(int)0){
+
+                //this one is correct result
+                $town['correct'] = 'true';
+                $response[] = $town;
+
+                //limit to 5 results for autocomplete
+                if(count($response)>=5) break;
+            }
+        }
+
+        return new JsonResponse($response);
     }
 
     private function aasort (&$array, $key) {
