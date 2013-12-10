@@ -17,7 +17,11 @@
                         $(".main-container").append("<p class='no-results'>No results.</p>");
                     }else{
                         $.each(data, function( index, value ) {
-                            cities += "<tr><td>"+value.zip+"</td><td>"+value.city+"</td><td>"+value.population+"</td></tr>";
+                            if(value.correct=="true"){
+                                cities += "<tr class='correct'><td>"+value.zip+"</td><td>"+value.name+"</td><td>"+value.population+"</td></tr>";
+                            }else{
+                                cities += "<tr><td>"+value.zip+"</td><td>"+value.name+"</td><td>"+value.population+"</td></tr>";
+                            }
                         });
                     }
 

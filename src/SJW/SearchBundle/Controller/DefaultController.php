@@ -31,7 +31,7 @@ class DefaultController extends Controller
         $searchString = trim($request->query->get('q'));
 
         $session = $this->getRequest()->getSession();
-        $limit = $session->get('maximumRows');
+        $limit = ($session->get('maximumRows') =='') ? 20 : $session->get('maximumRows');
 
         // Read resource file.
         $kernel = $this->get('kernel');
@@ -43,25 +43,52 @@ class DefaultController extends Controller
 
         $numbers = array();
         $response = array();
+        $allTowns = array();
 
         foreach($lines as $k=>$line) {
             $numbers = explode(';', $line);
 
-            if ($numbers[0]==$searchString
-                || $numbers[1]==$searchString
-                || strpos($numbers[1], $searchString)===(int)0
-                || strpos($numbers[1], $searchString)!=false){
-                $response[$k]['zip'] = (isset($numbers[0]) ? $numbers[0] : false);
-                $response[$k]['city'] = (isset($numbers[1]) ? $numbers[1] : false);
-                $response[$k]['population'] = (isset($numbers[2]) ? $numbers[2] : false);
+            //first put everything in one big associative array
+            $allTowns[$k]['zip'] = (isset($numbers[0]) ? $numbers[0] : false);
+            $allTowns[$k]['name'] = (isset($numbers[1]) ? $numbers[1] : false);
+            $allTowns[$k]['population'] = (isset($numbers[2]) ? $numbers[2] : false);
+        }
 
-                //use limit here to break out of the loop
+        //sort array by population
+        $this->aasort($allTowns,"population");
+        $allTowns = array_reverse($allTowns);
+
+        foreach($allTowns as $k=>$town){
+            //be smart here and check %string%
+            if ($town['zip']==$searchString
+                || $town['name']==$searchString
+                || strpos($town['name'], $searchString)===(int)0
+                || strpos($town['name'], $searchString)!=false){
+
+                //this one is correct result
+                $town['correct'] = 'true';
+                $response[] = $town;
+
+                //unset it from all towns
+                unset($allTowns[$k]);
+
+                //use user set limit here to break out of the loop even with correct results
                 if(count($response)>=$limit) break;
             }
         }
 
-
-        // TODO: Implement search based on query string.
+        if(count($response)>0 && count($response)<$limit){
+            //if there is space for those with similar population
+            foreach($allTowns as $k=>$town){
+                if($response[0]['population']<$town['population']){
+                    continue;
+                }else{
+                    $town['correct'] = 'false';
+                    $response[] = $town;
+                }
+                if(count($response)>=$limit) break;
+            }
+        }
 
         // Output content.
         return new JsonResponse($response);
@@ -82,5 +109,19 @@ class DefaultController extends Controller
         }
 
 
+    }
+
+    private function aasort (&$array, $key) {
+        $sorter=array();
+        $ret=array();
+        reset($array);
+        foreach ($array as $ii => $va) {
+            $sorter[$ii]=$va[$key];
+        }
+        asort($sorter);
+        foreach ($sorter as $ii => $va) {
+            $ret[$ii]=$array[$ii];
+        }
+        $array=$ret;
     }
 }

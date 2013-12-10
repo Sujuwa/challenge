@@ -11,3 +11,7 @@
     border: 1px solid #ddd;
     padding: 20px;
 }
+
+tr.correct td{
+    outline: 1px solid #428BCA;
+}
