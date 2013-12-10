@@ -125,7 +125,8 @@ class DefaultController extends Controller
             //be smart here and check %string%
             if ($town['zip']==$searchString
                 || $town['name']==$searchString
-                || strpos(strtolower($town['name']), strtolower($searchString))===(int)0){
+                || strpos(strtolower($town['name']), strtolower($searchString))===(int)0
+                || strpos($town['zip'], $searchString)===(int)0){
 
                 //this one is correct result
                 $town['correct'] = 'true';
