@@ -11,3 +11,26 @@
     border: 1px solid #ddd;
     padding: 20px;
 }
+
+tr.correct td{
+    outline: 1px solid #428BCA;
+}
+
+ul#suggestList{
+    list-style-type: none;
+    margin:0;
+    padding: 0;
+    border:1px solid #eaeaea;
+    box-shadow: 3px 3px 3px gray;
+    background: #fff;
+    position: absolute;
+}
+
+ul#suggestList li{
+    padding:4px;
+}
+
+ul#suggestList li:hover{
+    background-color: lightblue;
+    cursor:pointer;
+}

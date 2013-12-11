@@ -1,0 +1,14 @@
+default:
+    extensions:
+        Behat\MinkExtension\Extension:
+            base_url: "http://local.challenge/app_dev.php"
+            default_session: selenium2
+            browser_name: 'firefox'
+            javascript_session: selenium2
+            selenium2:
+                capabilities: { "browser": "firefox", "version": "24"}
+        Behat\Symfony2Extension\Extension:
+            mink_driver: true
+            kernel:
+                env: test
+                debug: true
