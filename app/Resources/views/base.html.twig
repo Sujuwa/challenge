@@ -11,6 +11,7 @@
     <body>
         {% block body %}{% endblock %}
 
+        <script>baseUrl = '{{ app.request.getBaseURL() }}';</script>
         {% block javascripts %}{% endblock %}
     </body>
 </html>

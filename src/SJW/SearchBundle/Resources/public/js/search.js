@@ -6,7 +6,7 @@
             var search = $('#search-input').val();
 
             $.ajax({
-                url: 'api/search?q=' + search,
+                url: baseUrl+'/api/search?q=' + search,
                 type: 'GET',
                 success: function(data) {
                     // TODO: implement showing of data.
@@ -43,7 +43,7 @@
             var that = $(this);
             if(search.length>2){
                 $.ajax({
-                    url: 'api/autocomplete?q=' + search,
+                    url: baseUrl+'/api/autocomplete?q=' + search,
                     type: 'GET',
                     success: function(data) {
                         console.log(data);
