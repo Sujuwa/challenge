@@ -52,6 +52,9 @@ If you make changes to asset files (.css, .js), make sure to run `php app/consol
 ##### Clearing the cache
 To clear the cache (sometimes needed depending on the situation), run `php app/console cache:clear --no-warmup`. Usually you don't want to warm up the cache.
 
+#### Contact information
+Sujuwa homesite, [open jobs](http://www.sujuwa.fi/rekry/)
+
 ---
 
 Datasource: http://www.stat.fi/tup/posnro/vakiluku_posnro_2011.xls (Tilastokeskus: Väkiluku postinumeroalueittain 31.12.2011, XLS)
