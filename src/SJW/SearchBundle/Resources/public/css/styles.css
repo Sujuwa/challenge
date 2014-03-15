@@ -1,0 +1,50 @@
+.city_row {
+
+}
+
+.matching {
+    font-weight: bold;
+}
+
+.odd {
+    background-color: #e8e8e8;
+}
+
+.even {
+    background-color: #f8f8f8;
+}
+
+.amount {
+    text-align: right;
+}
+
+/* autocomplete items */
+
+.ui-helper-hidden-accessible {
+    display: none;
+}
+
+/* highlight results */
+.ui-autocomplete span.hl_results {
+    background-color: #ffff66;
+}
+
+/* loading - the AJAX indicator */
+.ui-autocomplete-loading {
+    background: #ffffee;
+}
+
+/* scroll results */
+.ui-autocomplete {
+    background-color: #ffffee;
+    max-height: 250px;
+    overflow-y: auto;
+    /* prevent horizontal scrollbar */
+    overflow-x: hidden;
+    /* add padding for vertical scrollbar */
+    padding: 5px;
+}
+
+.ui-autocomplete li {
+    font-size: 16px;
+}
