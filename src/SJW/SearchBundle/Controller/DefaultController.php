@@ -66,7 +66,7 @@ class DefaultController extends Controller
 	} else if (!preg_match('/[^A-Za-z]/', $searchString)) {
 	  // town
 		for ($i = 0; $i < count($lines); $i++) {
-			if (strpos($numbers[$i][1], $searchString) === 0) {
+			if (strpos(strtolower($numbers[$i][1]), strtolower($searchString)) === 0) {
 				$el = array();
 				for ($j = 0; $j < $N; $j++) {
 					$el[$j] = $numbers[$i+($N/2)-$j];
