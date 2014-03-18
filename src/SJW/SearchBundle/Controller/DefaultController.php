@@ -50,7 +50,7 @@ class DefaultController extends Controller
         array_multisort($tmp_pop, SORT_ASC, $numbers);
 
         $res_size = 0;
-        $N = 5;
+        $N = 7;
         $col_index = 0;
 
         if (!preg_match('/[^0-9]/', $searchString))

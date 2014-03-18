@@ -20,40 +20,27 @@
                         document.getElementById("endTimeLabel").style.visibility = "visible";
                     }
 
+                    var bcg_color = "";
+                    var bold_flg = "";
+
                     $.each(data, function(i, item) {
-                        if (i%2 == 0) {
-                            $.each(item, function(j, item2) {
-                                if (item2[3] == 1) {
-                                        var $tr = $('<tr style="background: Lavender; font-weight: bold;">').append(
-                                        $('<td>').text(item2[0]),
-                                        $('<td>').text(item2[1]),
-                                        $('<td>').text(item2[2])
-                                        ).appendTo('#search_table');
-                                } else {
-                                        var $tr = $('<tr style="background: Lavender;">').append(
-                                        $('<td>').text(item2[0]),
-                                        $('<td>').text(item2[1]),
-                                        $('<td>').text(item2[2])
-                                        ).appendTo('#search_table');
-                                }
-                            });
-                        } else {
-                            $.each(item, function(j, item2) {
-                                if (item2[3] == 1) {
-                                        var $tr = $('<tr style="background: AliceBlue; font-weight: bold;">').append(
-                                        $('<td>').text(item2[0]),
-                                        $('<td>').text(item2[1]),
-                                        $('<td>').text(item2[2])
-                                        ).appendTo('#search_table');
-                                } else {
-                                        var $tr = $('<tr style="background: AliceBlue;">').append(
-                                        $('<td>').text(item2[0]),
-                                        $('<td>').text(item2[1]),
-                                        $('<td>').text(item2[2])
-                                        ).appendTo('#search_table');
-                                }
-                            });
-                        }
+                        if (i%2 == 0)
+                            bcg_color = "Lavender";
+                        else
+                            bcg_color = "AliceBlue";
+
+                        $.each(item, function(j, item2) {
+                            if (item2[3] == 1)
+                                bold_flg = " font-weight: bold;";
+                            else
+                                bold_flg = "";
+
+                            var $tr = $('<tr style="background: '+bcg_color+';'+bold_flg+'">').append(
+                            $('<td>').text(item2[0]),
+                            $('<td>').text(item2[1]),
+                            $('<td>').text(item2[2])
+                            ).appendTo('#search_table');
+                        });
                     });
                 }
             });
