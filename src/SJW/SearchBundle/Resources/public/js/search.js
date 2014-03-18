@@ -9,11 +9,12 @@
                 url: 'app_dev.php/api/search?q=' + search,
                 type: 'GET',
                 success: function(data) {
-                        var table = document.getElementById("search_table");
+                    console.log(data);
+                    var table = document.getElementById("search_table");
 
-                        for(var i = table.rows.length - 1; i > 0; i--) {
-                            table.deleteRow(i);
-                        }
+                    for(var i = table.rows.length - 1; i > 0; i--) {
+                        table.deleteRow(i);
+                    }
 
                     $.each(data, function(i, item) {
                         if (i%2 == 0) {

@@ -17,7 +17,7 @@ class DefaultController extends Controller
      */
     public function indexAction()
     {
-	return array();
+        return array();
     }
 
     /**
@@ -38,48 +38,42 @@ class DefaultController extends Controller
         $lines = explode("\n", file_get_contents($filePath, true));
 
         $numbers = array();
-	$res = array();
+        $res = array();
 
         foreach($lines as $line) {
-            $numbers[] = explode(';', $line);
+            $numbers[] = explode(';', $line.';0');
         }
 
-	foreach ($numbers as $val)
-	$tmp_pop[] = end($val);
+        foreach ($numbers as $val)
+        $tmp_pop[] = $val[2];
 
-	array_multisort($tmp_pop, SORT_ASC, $numbers);
+        array_multisort($tmp_pop, SORT_ASC, $numbers);
 
-	$res_size = 0;
-	$N = 5;
-	if (!preg_match('/[^0-9]/', $searchString)) {
-	  // zip code
-		for ($i = 0; $i < count($lines); $i++) {
-			if (strpos($numbers[$i][0], $searchString) === 0) {
-				$el = array();
+        $res_size = 0;
+        $N = 5;
+        $col_index = 0;
 
-				for ($j = 0; $j < $N; $j++) {
-					if (isset($numbers[$i+$j-($N/2)]))
-						$el[$j] = $numbers[$i+$j-($N/2)];
-				}
-				$res[$res_size] = $el;
-				$res_size = $res_size + 1;
-			}
-		}
-	} else if (!preg_match('/[^A-Za-z]/', $searchString)) {
-	  // town
-		for ($i = 0; $i < count($lines); $i++) {
-			if (strpos(strtolower($numbers[$i][1]), strtolower($searchString)) === 0) {
-				$el = array();
+        if (!preg_match('/[^0-9]/', $searchString))
+            $col_index = 0;
+        else if (!preg_match('/[^A-Za-z]/', $searchString))
+            $col_index = 1;
+        else
+            // What we're supposed to do in this case?
+            return new JsonResponse($res);
 
-				for ($j = 0; $j < $N; $j++) {
-					if (isset($numbers[$i+$j-($N/2)]))
-						$el[$j] = $numbers[$i+$j-($N/2)];
-				}
-				$res[$res_size] = $el;
-				$res_size = $res_size + 1;
-			}
-		}
-	}
+        for ($i = 0; $i < count($lines); $i++) {
+            if (strpos($numbers[$i][$col_index], $searchString) === 0) {
+                $el = array();
+                $numbers[$i][3] = 1;
+
+                for ($j = 0; $j < $N; $j++) {
+                    if (isset($numbers[$i+$j-(($N-1)/2)]))
+                        $el[$j] = $numbers[$i+$j-(($N-1)/2)];
+                }
+                $res[$res_size] = $el;
+                $res_size = $res_size + 1;
+            }
+        }
 
         return new JsonResponse($res);
     }
