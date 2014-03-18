@@ -38,21 +38,40 @@ class DefaultController extends Controller
         $lines = explode("\n", file_get_contents($filePath, true));
 
         $numbers = array();
+	$res = array();
 
         foreach($lines as $line) {
             $numbers[] = explode(';', $line);
         }
+/*
+	usort($numbers, function($a, $b) {
+	    return $a[2] - $b[2];
+	});
+*/
+
+	$res_size = 0;
+	if (!preg_match('/[^0-9]/', $searchString)) {
+	  // zip code
+		for ($i = 0; $i < count($lines); $i++) {
+			if (strpos($numbers[$i][0], $searchString) === 0) {
+				$el = array();
+				for ($j = 0; $j < 5; $j++) {
+					$el[$j] = $numbers[$i+2-$j];
+				}
+				$res[$res_size] = $el;
+				$res_size = $res_size + 1;
+			}
+		}
+	} else if (!preg_match('/[^A-Za-z]/', $searchString)) {
+	  // town
+	} else {
+	  // combination of them
+	}
+
 
         // TODO: Implement search based on query string.
 
         // Output content.
-        return new JsonResponse($numbers);
-	//$result_table = 'sfsdffsdsdfdssdfsdfdsf';
-        //$this->get('session')->getFlashBag()->set('result_table', $result_table);
-
-        //return $this->redirect($this->generateUrl(''), array('result_table' => $result_table));
-	//return new RedirectResponse($this->generateUrl('_search'));
-	//return $this->render('SJWSearchBundle:Default:search.html.twig', array('result_table' => $result_table));
-	//return array('result_table' => $result_table);
+        return new JsonResponse($res);
     }
 }

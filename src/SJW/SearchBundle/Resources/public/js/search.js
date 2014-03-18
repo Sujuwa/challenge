@@ -10,15 +10,16 @@
                 type: 'GET',
                 success: function(data) {
                     // TODO: implement showing of data.
-                    //console.log(data);
+                    console.log(data);
 
-                    //response = $.parseJSON(data);
                     $.each(data, function(i, item) {
-                        var $tr = $('<tr>').append(
-                        $('<td>').text(item[0]),
-                        $('<td>').text(item[1]),
-                        $('<td>').text(item[2])
-                        ).appendTo('#records_table');
+                            $.each(item, function(j, item2) {
+                                var $tr = $('<tr>').append(
+                                $('<td>').text(item2[0]),
+                                $('<td>').text(item2[1]),
+                                $('<td>').text(item2[2])
+                                ).appendTo('#search_table');
+                            });
                     });
 
 
