@@ -28,6 +28,7 @@ class DefaultController extends Controller
     public function searchAction(Request $request) {
         // Get the search string from the UI.
         $searchString = $request->query->get('q');
+	$session = $this->getRequest()->getSession();
 
         // Read resource file.
         $kernel = $this->get('kernel');
@@ -50,8 +51,11 @@ class DefaultController extends Controller
         array_multisort($tmp_pop, SORT_ASC, $numbers);
 
         $res_size = 0;
-        $N = 7;
         $col_index = 0;
+	if (is_numeric($session->get('search_range')))
+		$N = $session->get('search_range');
+	else
+		$N = 5;
 
         if (!preg_match('/[^0-9]/', $searchString))
             $col_index = 0;
@@ -76,5 +80,26 @@ class DefaultController extends Controller
         }
 
         return new JsonResponse($res);
+    }
+
+    /**
+     * @Route("/settings", name="_settings")
+     *
+     * @Template()
+     */
+    public function settingsAction() {
+        return array();
+    }
+
+    /**
+     * @Route("/settingsSet", name="_settingsSet")
+     *
+     * @Template()
+     */
+    public function settingsSetAction(Request $request) {
+	$session = $this->getRequest()->getSession();
+	$session->set('search_range', $request->request->get('search_range'));
+
+        return $this->redirect("./");
     }
 }
