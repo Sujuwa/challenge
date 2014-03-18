@@ -10,14 +10,14 @@
                 type: 'GET',
                 success: function(data) {
                     var table = document.getElementById("search_table");
-                    document.getElementById("endTimeLabel").style.visibility = "hidden";
+                    document.getElementById("noResultsLabel").style.visibility = "hidden";
 
                     for(var i = table.rows.length - 1; i > 0; i--) {
                         table.deleteRow(i);
                     }
 
                     if (data.length == 0) {
-                        document.getElementById("endTimeLabel").style.visibility = "visible";
+                        document.getElementById("noResultsLabel").style.visibility = "visible";
                     }
 
                     var bcg_color = "";
