@@ -2663,7 +2663,7 @@
 99540;Torvinen;163
 99555;Luosto;100
 99560;Orakylä;281
-1Sodankylä Keskus;5530
+99600;Sodankylä Keskus;5530
 99620;Kelujärvi;242
 99650;Sattanen;271
 99655;Sattasvaara;125

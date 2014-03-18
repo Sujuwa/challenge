@@ -47,7 +47,7 @@ class DefaultController extends Controller
 	foreach ($numbers as $val)
 	$tmp_pop[] = end($val);
 
-	array_multisort($tmp_pop, SORT_DESC, $numbers);
+	array_multisort($tmp_pop, SORT_ASC, $numbers);
 
 	$res_size = 0;
 	$N = 5;
@@ -56,8 +56,10 @@ class DefaultController extends Controller
 		for ($i = 0; $i < count($lines); $i++) {
 			if (strpos($numbers[$i][0], $searchString) === 0) {
 				$el = array();
+
 				for ($j = 0; $j < $N; $j++) {
-					$el[$j] = $numbers[$i+($N/2)-$j];
+					if (isset($numbers[$i+$j-($N/2)]))
+						$el[$j] = $numbers[$i+$j-($N/2)];
 				}
 				$res[$res_size] = $el;
 				$res_size = $res_size + 1;
@@ -68,31 +70,17 @@ class DefaultController extends Controller
 		for ($i = 0; $i < count($lines); $i++) {
 			if (strpos(strtolower($numbers[$i][1]), strtolower($searchString)) === 0) {
 				$el = array();
+
 				for ($j = 0; $j < $N; $j++) {
-					$el[$j] = $numbers[$i+($N/2)-$j];
+					if (isset($numbers[$i+$j-($N/2)]))
+						$el[$j] = $numbers[$i+$j-($N/2)];
 				}
 				$res[$res_size] = $el;
 				$res_size = $res_size + 1;
 			}
 		}
-	}/* else {
-	  // combination of them
-		for ($i = 0; $i < count($lines); $i++) {
-			if (strpos($numbers[$i][0].' '.$numbers[$i][1], $searchString) === 0) {
-				$el = array();
-				for ($j = 0; $j < $N; $j++) {
-					$el[$j] = $numbers[$i+($N/2)-$j];
-				}
-				$res[$res_size] = $el;
-				$res_size = $res_size + 1;
-			}
-		}
-	}*/
+	}
 
-
-        // TODO: Implement search based on query string.
-
-        // Output content.
         return new JsonResponse($res);
     }
 }
