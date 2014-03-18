@@ -62,7 +62,7 @@ class DefaultController extends Controller
             return new JsonResponse($res);
 
         for ($i = 0; $i < count($lines); $i++) {
-            if (strpos($numbers[$i][$col_index], $searchString) === 0) {
+            if (strpos(strtolower($numbers[$i][$col_index]), strtolower($searchString)) === 0) {
                 $el = array();
                 $numbers[$i][3] = 1;
 

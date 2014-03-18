@@ -38,7 +38,8 @@
         <form action="{{ path('_search') }}" id="search_form">
             <div class="form-group">
                 <label class="sr-only" for="search-input">Search</label>
-                <input type="text" class="form-control" name="q" id="search-input" placeholder="Search">
+                <input type="text" name="q" id="search-input" placeholder="Search">
+                <label id="endTimeLabel" class="errorMsg" style="visibility:hidden">&nbsp;&nbsp;No matches</label>
             </div>
             <input type="submit" value="Do search!" class="btn btn-default js-do-search"/>
         </form>
