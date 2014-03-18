@@ -11,17 +11,17 @@ use Symfony\Component\HttpFoundation\Request;
 class DefaultController extends Controller
 {
     /**
-     * @Route("/")
+     * @Route("/", name="_index")
      *
      * @Template()
      */
     public function indexAction()
     {
-        return array();
+	return array();
     }
 
     /**
-     * @Route("/api/search")
+     * @Route("/api/search", name="_search")
      *
      * @Template()
      */
@@ -47,5 +47,12 @@ class DefaultController extends Controller
 
         // Output content.
         return new JsonResponse($numbers);
+	//$result_table = 'sfsdffsdsdfdssdfsdfdsf';
+        //$this->get('session')->getFlashBag()->set('result_table', $result_table);
+
+        //return $this->redirect($this->generateUrl(''), array('result_table' => $result_table));
+	//return new RedirectResponse($this->generateUrl('_search'));
+	//return $this->render('SJWSearchBundle:Default:search.html.twig', array('result_table' => $result_table));
+	//return array('result_table' => $result_table);
     }
 }
