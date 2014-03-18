@@ -43,20 +43,21 @@ class DefaultController extends Controller
         foreach($lines as $line) {
             $numbers[] = explode(';', $line);
         }
-/*
-	usort($numbers, function($a, $b) {
-	    return $a[2] - $b[2];
-	});
-*/
+
+	foreach ($numbers as $val)
+	$tmp_pop[] = end($val);
+
+	array_multisort($tmp_pop, SORT_DESC, $numbers);
 
 	$res_size = 0;
+	$N = 5;
 	if (!preg_match('/[^0-9]/', $searchString)) {
 	  // zip code
 		for ($i = 0; $i < count($lines); $i++) {
 			if (strpos($numbers[$i][0], $searchString) === 0) {
 				$el = array();
-				for ($j = 0; $j < 5; $j++) {
-					$el[$j] = $numbers[$i+2-$j];
+				for ($j = 0; $j < $N; $j++) {
+					$el[$j] = $numbers[$i+($N/2)-$j];
 				}
 				$res[$res_size] = $el;
 				$res_size = $res_size + 1;
@@ -64,9 +65,29 @@ class DefaultController extends Controller
 		}
 	} else if (!preg_match('/[^A-Za-z]/', $searchString)) {
 	  // town
-	} else {
+		for ($i = 0; $i < count($lines); $i++) {
+			if (strpos($numbers[$i][1], $searchString) === 0) {
+				$el = array();
+				for ($j = 0; $j < $N; $j++) {
+					$el[$j] = $numbers[$i+($N/2)-$j];
+				}
+				$res[$res_size] = $el;
+				$res_size = $res_size + 1;
+			}
+		}
+	}/* else {
 	  // combination of them
-	}
+		for ($i = 0; $i < count($lines); $i++) {
+			if (strpos($numbers[$i][0].' '.$numbers[$i][1], $searchString) === 0) {
+				$el = array();
+				for ($j = 0; $j < $N; $j++) {
+					$el[$j] = $numbers[$i+($N/2)-$j];
+				}
+				$res[$res_size] = $el;
+				$res_size = $res_size + 1;
+			}
+		}
+	}*/
 
 
         // TODO: Implement search based on query string.
