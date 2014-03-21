@@ -35,33 +35,14 @@
     </div>
 
     <div class="main-container">
-        <form action="{{ path('_search') }}" id="search_form">
+        <form action="{{ path('_settingsSet') }}" id="settings_form" method="POST">
             <div class="form-group">
-                <label class="sr-only" for="search-input">Search</label>
-                <input type="text" name="q" id="search-input" placeholder="Search">
-                <label id="noResultsLabel" class="errorMsg" style="visibility:hidden">&nbsp;&nbsp;No matches</label>
+                <label id="search_range" class="errorMsg"">No. of nearest towns</label>
+                <label class="sr-only" for="search_range-input">Number of towns</label>
+                <input type="number" value="{{ app.session.get('search_range') }}" min="1" max="64" name="search_range" id="search_range-input" placeholder="Number of towns">
             </div>
-            <input type="submit" name="search-button" value="Do search!" class="btn btn-default js-do-search"/>
+            <input type="submit" value="Save settings" class="btn btn-default"/>
         </form>
 
-        <hr />
-
-        <form action="{{ path('_settings') }}" method="post">
-            <button type="submit" name="button">Settings</button>
-        </form>
-
-        <hr />
-
-        <div class="results">
-
-        <table id="search_table" class="table table-bordered">
-            <tr>
-                <th>Zip</th>
-                <th>Town</th>
-                <th>Population</th>
-            </tr>
-        </table>
-
-        </div>
     </div>
 {% endblock %}

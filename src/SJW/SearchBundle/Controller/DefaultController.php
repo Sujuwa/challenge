@@ -100,6 +100,6 @@ class DefaultController extends Controller
 	$session = $this->getRequest()->getSession();
 	$session->set('search_range', $request->request->get('search_range'));
 
-        return $this->redirect("./");
+        return $this->redirect($request->getBaseUrl());
     }
 }

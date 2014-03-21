@@ -5,8 +5,9 @@
 
             var search = $('#search-input').val();
 
+
             $.ajax({
-                url: 'api/search?q=' + search,
+                url: document.URL + '/api/search?q=' + search,
                 type: 'GET',
                 success: function(data) {
                     var table = document.getElementById("search_table");
