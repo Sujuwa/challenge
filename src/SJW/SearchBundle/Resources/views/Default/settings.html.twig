@@ -1,0 +1,35 @@
+{% extends '::base.html.twig' %}
+
+{% block stylesheets %}
+    {% stylesheets filter="cssrewrite"
+    'bundles/sjwsearch/css/lib/*'
+
+    'bundles/sjwsearch/css/layout.css'
+
+    %}
+    <link href="{{ asset_url }}" rel="stylesheet" media="screen" />
+    {% endstylesheets %}
+{% endblock %}
+
+{% block javascripts %}
+    {% javascripts  %}
+    <script src="{{ asset_url }}" type="text/javascript"></script>
+    {% endjavascripts %}
+{% endblock %}
+
+{% block title %}
+    Code Challenge
+{% endblock %}
+
+{% block body %}
+
+
+        <h1>Settings</h1>
+		<p>Set settings for additional areas shown in search</p>
+
+        <form action="{{ path('_settingsSet') }}" method="POST">
+            <input type="number" value="0" min="0" max="200" name="number_range">
+            <input type="submit" value="Save settings"/>
+        </form>
+
+{% endblock %}
