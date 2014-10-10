@@ -14,10 +14,9 @@
 
 {% block javascripts %}
     {% javascripts
-    '@SJWSearchBundle/Resources/public/js/lib/*'
-
+    '@SJWSearchBundle/Resources/public/js/lib/*'    
     '@SJWSearchBundle/Resources/public/js/search.js'
-
+    
     output='js/dist/search.js'
     %}
     <script src="{{ asset_url }}" type="text/javascript"></script>
@@ -35,12 +34,14 @@
     </div>
 
     <div class="main-container">
-        <form class="form-inline" role="form">
+        <form class="form-inline" role="form" id="search-form">
             <div class="form-group">
                 <label class="sr-only" for="search-input">Search</label>
-                <input type="email" class="form-control" id="search-input" placeholder="Search">
+                <input type="text" class="form-control" id="search-input" placeholder="Search" autocomplete="off">
             </div>
             <button type="submit" class="btn btn-default js-do-search">Do search!</button>
+            <input type="hidden" name="numberOfCities" value="{{ numberOfCities }}" id="number-of-cities" />
+            <a style="float: right" href="{{ path('sjw_settings') }}">Settings</a>
         </form>
 
         <hr />
@@ -55,8 +56,8 @@
                     <th>Population</th>
                 </tr>
                 </thead>
-                <tbody>
-
+                <tbody id="table-body">
+                    
                 </tbody>
             </table>
 

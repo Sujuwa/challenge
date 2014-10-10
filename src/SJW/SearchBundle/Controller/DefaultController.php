@@ -10,14 +10,15 @@ use Symfony\Component\HttpFoundation\Request;
 
 class DefaultController extends Controller
 {
-    /**
-     * @Route("/")
+    /**     
      *
      * @Template()
      */
-    public function indexAction()
-    {
-        return array();
+    public function indexAction($numberOfCities = null)
+    {        
+        return array(
+            'numberOfCities' => $numberOfCities
+        );
     }
 
     /**
@@ -33,19 +34,98 @@ class DefaultController extends Controller
         $kernel = $this->get('kernel');
 
         $filePath = $kernel->locateResource('@SJWSearchBundle/Resources/data/numbers.txt');
+        
+        $cityService = new \SJW\SearchBundle\Services\SearchCityService($filePath);
+        $searchResult = $cityService->searchCity($searchString);
+        
+        return $this->render("SJWSearchBundle:Default:results.html.twig", array(
+            "results" => $searchResult
+        ));
+    }
+    
+    /**
+     * @Route("api/autocomplete")     
+     */
+    public function autocompleteAction(Request $request){
+        
+        // Get the search string from the UI.
+        $searchString = $request->query->get('q');
 
-        // Split lines and comma delimited values.
-        $lines = explode("\n", file_get_contents($filePath, true));
+        // Read resource file.
+        $kernel = $this->get('kernel');
 
-        $numbers = array();
-
-        foreach($lines as $line) {
-            $numbers[] = explode(';', $line);
+        $filePath = $kernel->locateResource('@SJWSearchBundle/Resources/data/numbers.txt');
+        
+        $cityService = new \SJW\SearchBundle\Services\SearchCityService($filePath);
+        $searchResult = $cityService->searchCity($searchString);
+        return new JsonResponse($searchResult);
+    }
+    
+    
+    
+    /**
+     * @Route("/api/results")
+     *     
+     */
+    public function resultsAction(Request $request){
+        
+        $kernel = $this->get('kernel');
+        
+        $filePath = $kernel->locateResource('@SJWSearchBundle/Resources/data/numbers.txt');
+        
+        $searchArray = array(
+            $request->request->get('zip')
+            ,$request->request->get('city')
+            ,$request->request->get('population')
+        );
+        
+        $cityService = new \SJW\SearchBundle\Services\SearchCityService($filePath);
+        
+        $numberOfCities = $request->request->get('numberOfCities');        
+        if(intval($numberOfCities) > 0) $cityService->setResultLimit ($numberOfCities);
+        
+        $searchResults = array();
+        
+        $searchResults = $cityService->getCitiesWithNearestPopulation($searchArray);        
+        
+        return $this->render("SJWSearchBundle:Default:results.html.twig", array(
+            "results" => $searchResults
+        ));
+        
+    }
+    
+    public function settingsAction(Request $request){
+        
+        $form = $this->createFormBuilder(array())
+                ->add('cityNumber', 'text', array(
+                    'label' => 'City Number'                    
+                    ,'attr' => array(
+                        'placeholder' => 'Enter a number'
+                        ,'class' => 'form-control'
+                    )
+                ))
+                ->add('save', 'submit', array(
+                    'label' => 'Save'
+                    ,'attr' => array(
+                        'class' => 'btn btn-default'
+                    )
+                ))
+                ->getForm();
+        
+        $form->handleRequest($request);
+        
+        if($form->isValid()){ 
+            $data = $form->getData();
+            if(intval($data['cityNumber'] > 0)){
+                return $this->redirect($this->generateUrl('sjw_index', array('numberOfCities' => $data['cityNumber'])));                
+            } else {
+                throw new \Exception('Please insert number');
+            }            
         }
-
-        // TODO: Implement search based on query string.
-
-        // Output content.
-        return new JsonResponse($numbers);
+        
+        return $this->render("SJWSearchBundle:Default:settings.html.twig", array(
+            "form" => $form->createView()
+        ));
+        
     }
 }

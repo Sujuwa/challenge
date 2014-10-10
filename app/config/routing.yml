@@ -3,3 +3,13 @@ sjw_search_bundle_sjw_search:
     type:     annotation
     prefix:   /
 
+sjw_settings:
+    path: /settings
+    defaults: { _controller: SJWSearchBundle:Default:settings }
+
+sjw_index:
+    path: /{numberOfCities}
+    defaults: { _controller: SJWSearchBundle:Default:index, numberOfCities: null }
+    
+
+
