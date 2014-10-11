@@ -21,7 +21,7 @@ class SearchCityService {
     private function getTextContentAsArray(){
         
         if(file_exists($this->filepath) == false){
-            throw new Exception('File does not exist');
+            throw new \InvalidArgumentException('File does not exist');
         }
         
         $lines = explode("\n", file_get_contents($this->filepath, true));
@@ -57,6 +57,11 @@ class SearchCityService {
         $this->resultLimit = $limit - 1;
     }
     
+    /**
+     * 
+     * @param array $cityArray
+     * @return array
+     */
     public function getCitiesWithNearestPopulation(array $cityArray){
         
         $population = (int) $cityArray[2];        
@@ -72,7 +77,7 @@ class SearchCityService {
                 if($row == $cityArray) continue;
                 
                 $cityPopulation = (int) $row[2];                
-                if(ceil($this->resultLimit / 2) == $resultCounter) break;                
+                if(ceil($this->resultLimit / 2) == $resultCounter) break;               
                 
                 if($cityPopulation >= $population){                    
                     $cities[] = $row;
@@ -103,6 +108,11 @@ class SearchCityService {
         return $cities;
     }
     
+    /**
+     * 
+     * @param type $searchString
+     * @return array
+     */
     public function searchCity($searchString){
         
         $searchResult = array();

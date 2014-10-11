@@ -103,6 +103,12 @@ class DefaultController extends Controller
                         'placeholder' => 'Enter a number'
                         ,'class' => 'form-control'
                     )
+                    ,'constraints' => array(
+                        new \Symfony\Component\Validator\Constraints\NotNull()
+                        ,new \Symfony\Component\Validator\Constraints\Range(array(
+                            'min' => 1
+                        ))
+                    )
                 ))
                 ->add('save', 'submit', array(
                     'label' => 'Save'
@@ -115,12 +121,10 @@ class DefaultController extends Controller
         $form->handleRequest($request);
         
         if($form->isValid()){ 
-            $data = $form->getData();
-            if(intval($data['cityNumber'] > 0)){
-                return $this->redirect($this->generateUrl('sjw_index', array('numberOfCities' => $data['cityNumber'])));                
-            } else {
-                throw new \Exception('Please insert number');
-            }            
+            $data = $form->getData();            
+            return $this->redirect($this->generateUrl('sjw_index', array('numberOfCities' => $data['cityNumber'])));            
+        } else {            
+            #var_dump($form->getErrorsAsString());exit;
         }
         
         return $this->render("SJWSearchBundle:Default:settings.html.twig", array(

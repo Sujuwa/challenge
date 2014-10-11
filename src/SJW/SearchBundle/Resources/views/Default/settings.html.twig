@@ -34,9 +34,10 @@
     </div>
 
     <div class="main-container">
-        {{ form_start(form) }}
-        {{ form_errors(form) }}
+        {{ form_start(form, {attr: {novalidate: 'novalidate'}}) }}
+        
         <div class="form-group">
+            {{ form_errors(form.cityNumber) }}
             {{ form_label(form.cityNumber) }}
             {{ form_widget(form.cityNumber) }}
         </div>
