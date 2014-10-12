@@ -35,6 +35,10 @@ class SearchCityService {
         }        
     }
     
+    /**
+     * sort data by population
+     * @param type $desc
+     */
     private function sortData($desc = false){
         usort($this->contentArray, array($this, 'sortContentArray'));        
         if($desc) $this->contentArray = array_reverse ($this->contentArray);
@@ -54,7 +58,7 @@ class SearchCityService {
     }
     
     public function setResultLimit($limit){
-        $this->resultLimit = $limit - 1;
+        $this->resultLimit = $limit;
     }
     
     /**
@@ -77,17 +81,19 @@ class SearchCityService {
                 if($row == $cityArray) continue;
                 
                 $cityPopulation = (int) $row[2];                
-                if(ceil($this->resultLimit / 2) == $resultCounter) break;               
+                #if(ceil($this->resultLimit / 2) == $resultCounter) break;
+                if($this->resultLimit == $resultCounter) break;
                 
-                if($cityPopulation >= $population){                    
+                if($cityPopulation >= $population){
                     $cities[] = $row;
                     $resultCounter++;
-                }                
+                }
             }
             
             $this->sortData(true);
             
             // get cities with lower population
+            $resultCounter = 0;
             foreach($this->contentArray as $row){
                 if($row == $cityArray) continue;
                 
@@ -100,8 +106,8 @@ class SearchCityService {
                 }                
             }
             
-            $cities = $this->sortArray($cities); 
-            
+            $cities = $this->sortArray($cities);            
+            $cities = array_slice($cities, $this->resultLimit + 1);            
             array_unshift($cities, $cityArray);            
         }
         
