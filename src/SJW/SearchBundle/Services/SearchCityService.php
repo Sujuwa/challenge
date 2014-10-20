@@ -13,12 +13,15 @@ class SearchCityService {
     private $contentArray = array();
     private $resultLimit = 10;
     
+    /**     
+     * @param mixed $filepath
+     */
     public function __construct($filepath) {
         $this->filepath = $filepath;
         $this->getTextContentAsArray();
     }
     
-    private function getTextContentAsArray(){
+    public function getTextContentAsArray(){
         
         if(file_exists($this->filepath) == false){
             throw new \InvalidArgumentException('File does not exist');

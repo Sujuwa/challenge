@@ -34,6 +34,7 @@ class DefaultController extends Controller
         $kernel = $this->get('kernel');
 
         $filePath = $kernel->locateResource('@SJWSearchBundle/Resources/data/numbers.txt');
+        var_dump($filePath);exit;
         
         $cityService = new \SJW\SearchBundle\Services\SearchCityService($filePath);
         $searchResult = $cityService->searchCity($searchString);
