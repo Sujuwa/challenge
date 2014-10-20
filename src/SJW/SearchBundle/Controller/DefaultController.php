@@ -33,8 +33,7 @@ class DefaultController extends Controller
         // Read resource file.
         $kernel = $this->get('kernel');
 
-        $filePath = $kernel->locateResource('@SJWSearchBundle/Resources/data/numbers.txt');
-        var_dump($filePath);exit;
+        $filePath = $kernel->locateResource('@SJWSearchBundle/Resources/data/numbers.txt');        
         
         $cityService = new \SJW\SearchBundle\Services\SearchCityService($filePath);
         $searchResult = $cityService->searchCity($searchString);
@@ -124,8 +123,6 @@ class DefaultController extends Controller
         if($form->isValid()){ 
             $data = $form->getData();            
             return $this->redirect($this->generateUrl('sjw_index', array('numberOfCities' => $data['cityNumber'])));            
-        } else {            
-            #var_dump($form->getErrorsAsString());exit;
         }
         
         return $this->render("SJWSearchBundle:Default:settings.html.twig", array(
